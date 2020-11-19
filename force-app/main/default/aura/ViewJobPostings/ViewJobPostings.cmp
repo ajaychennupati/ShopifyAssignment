@@ -1,0 +1,117 @@
+<aura:component controller="viewJobPostings" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    <aura:attribute name="DepartmentsList" type="List"/>
+    <aura:attribute name="SelectedDepartmentId" type="String"/>
+    <aura:attribute name="JobswrapperClass" type="List"/>
+    <aura:attribute name="resultMessage" type="String"/>
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="JobapplicationList" type="List"/>
+    
+
+
+    
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+     	
+           <div class="slds-m-around_xx-large">
+			<aura:if isTrue="{!v.resultMessage!=null}">
+                <div class="slds-box slds-theme--error" aura:Id="errorMsgId">
+                    <ui:outputText aura:Id="errorMsgId" class="field" value="{!v.resultMessage}"/>
+                </div>
+            </aura:if>
+			<lightning:layout horizontalAlign="spread" multipleRows="true">
+                	<lightning:layoutItem flexibility="grow" size="6" mediumDeviceSize="6" largeDeviceSize="6">
+                            <lightning:select name="DepartmentsList" label="DepartmentsList" required="true" value="{!v.SelectedDepartmentId}" onchange="{!c.onChangeDepartmentsList}" class="ContractTerm">
+                                <aura:iteration items="{!v.DepartmentsList}" var="item">
+                                    <option text="{!item.Name}" value="{!item.Id}" selected="{!item.Id}"></option>
+                                </aura:iteration>
+            				</lightning:select>                          
+                        
+                   	 </lightning:layoutItem>
+             </lightning:layout>
+            <br/><br/>
+            <aura:if  isTrue="{!and(v.JobswrapperClass!=null, v.JobswrapperClass!='')}" >
+            <div class="JobTableBody">
+                 <center>
+              		<table id="tableId" class="slds-table slds-table_bordered slds-table_cell-buffer" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <td>Job Id</td>
+                            <td>Status</td>
+                            <td>DepartmentName</td>
+                            <td>SalaryInformation</td>
+                            <td>View</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.JobswrapperClass}" var="each" >
+                            <tr>
+                                <td>{!each.JobId}</td>
+                                <td>{!each.Status}</td>
+                                <td>{!each.DepartmentName}</td>
+                                <td>{!each.SalaryInformation}</td>
+                                <td><lightning:button variant="brand" label="View" title="View" name="{!each.JobId}" onclick="{! c.openModel }"/></td>
+                            </tr> 
+                        </aura:iteration>    
+                    </tbody>
+                	</table>
+                </center>    
+            </div>
+            </aura:if>
+            
+            <aura:if isTrue="{!v.isOpen}">
+            
+            <!--###### MODAL BOX Start######--> 
+                        <section role="dialog" tabindex="-1" class="custom-modal slds-modal slds-slide-up-open slds-modal_medium">
+            <div class="slds-modal__container slds-scrollable_y" style="height: 50rem;">
+              
+                    <!-- ###### MODAL BOX HEADER Start ######-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">About Sfdcmonkey.com</h2>
+                    </header>
+                    <!--###### MODAL BOX BODY Part Start######-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                       <table id="tableId" class="slds-table slds-table_bordered slds-table_cell-buffer" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <td>JobTitile</td>
+                                <td>Job ApplicationId</td>
+                                <td>Candidate Name</td>
+                                <td>Email</td>
+                                 <td>Status</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.JobapplicationList}" var="each" >
+                                <tr>
+                                    <td>{!each.JobTitile}</td>
+                                    <td>{!each.JobApplicationId}</td>
+                                    <td>{!each.CandidateName}</td>
+                                    <td>{!each.Email}</td>
+                                    <td>{!each.Status}</td>
+                                </tr> 
+                            </aura:iteration>    
+                        </tbody>
+                        </table>
+                    </div>
+                    <!--###### MODAL BOX FOOTER Part Start ######-->
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral" 
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel }"/>
+                  
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+            
+        </aura:if>
+            
+    	</div>        
+</aura:component>

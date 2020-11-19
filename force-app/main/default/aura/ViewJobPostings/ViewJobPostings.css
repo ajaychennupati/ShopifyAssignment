@@ -1,0 +1,25 @@
+.THIS th{
+    padding: 6px;
+    text-align: center;
+}
+.THIS td{
+    padding: 6px;
+    border: 1px solid #D4DDE6;
+    text-align: center;
+    color: #151531;
+}
+
+.THIS tableWidth{
+    width:97%;
+}
+.THIS .JobTableBody .rows:nth-child(even){
+    background: #EDF2F7;
+	border: 1px solid #D4DDE6;
+	opacity: 1;
+}
+.THIS .JobTableBody .rows:nth-child(odd){
+    background: white;
+}
+.THIS .termsAconit .slds-modal__container {
+    padding-top: 14%;
+}
